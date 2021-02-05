@@ -6,25 +6,23 @@ const router = express.Router();
 
 router.get('/drones', (req, res, next) => {
   // Iteration #2: List the drones
-  // ... your code here
   DroneModel.find()
     .then((drones) => {
       res.render('drones/list.hbs', {drones})
     })
     .catch(() => {
       console.log('there is an error finding the drones')
+      res.render('error.hbs')
     })
 });
 
 router.get('/drones/create', (req, res, next) => {
   // Iteration #3: Add a new drone
-  // ... your code here
   res.render('drones/create-form.hbs')
 });
 
 router.post('/drones/create', (req, res, next) => {
   // Iteration #3: Add a new drone
-  // ... your code here
   const {myDrone, myPropellers, myMaxspeed} = req.body
   let myNewDrones = {
     name: myDrone,
@@ -44,7 +42,6 @@ router.post('/drones/create', (req, res, next) => {
 
 router.get('/drones/:id/edit', (req, res, next) => {
   // Iteration #4: Update the drone
-  // ... your code here
   let id = req.params.id
   DroneModel.findById(id)
     .then((drone) => {
@@ -52,13 +49,13 @@ router.get('/drones/:id/edit', (req, res, next) => {
     })
     .catch(() => {
       console.log('error while finding drone')
+      res.render('error.hbs')
     })
   
 });
 
 router.post('/drones/:id/edit', (req, res, next) => {
   // Iteration #4: Update the drone
-  // ... your code here
   let id = req.params.id
   const{myDrone, myPropellers, myMaxspeed} = req.body
   
@@ -81,7 +78,18 @@ router.post('/drones/:id/edit', (req, res, next) => {
 
 router.post('/drones/:id/delete', (req, res, next) => {
   // Iteration #5: Delete the drone
-  // ... your code here
+  let id = req.params.id
+
+  DroneModel.findByIdAndDelete(id)
+    .then(() => {
+      res.redirect('/drones')
+      console.log('deleted succes')
+    })
+    .catch(() => {
+      console.log('error when deleting drone')
+      res.render('error.hbs')
+    })
+
 });
 
 module.exports = router;
