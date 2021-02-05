@@ -4,5 +4,14 @@ body {
 }
 
 a {
-  color: #00b7ff;
+  color: white;
+}
+
+h4{
+  margin-top: 10px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-start;
 }
